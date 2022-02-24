@@ -4,6 +4,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
+/**
+ * I avoided using Lombok in this class, just so I can see all the boilerplate models require.
+ *
+ */
+
 @Entity
 public class Step {
 

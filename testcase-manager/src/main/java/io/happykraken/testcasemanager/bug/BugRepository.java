@@ -1,10 +1,10 @@
-package io.happykraken.testcasemanager.testcase;
+package io.happykraken.testcasemanager.bug;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TestCaseRepository extends JpaRepository<TestCase, Long> {
+public interface BugRepository extends JpaRepository<Bug, Long> {
 
     // TODO: find by title
 }
