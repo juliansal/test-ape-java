@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,15 +19,16 @@ import java.time.LocalDateTime;
 public class TestCase {
 
     @Id
-    @SequenceGenerator(
-            name = "testcase_id_sequence",
-            sequenceName = "testcase_id_sequence"
-    )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "testcase_id_sequence"
+            generator = "case_number_seq"
     )
-    private Long id;
+    @SequenceGenerator(
+            name = "case_number_seq",
+            initialValue = 10000,
+            allocationSize = 1
+    )
+    private String caseNumber;
     private String title;
     private String description;
     private String authorEmail;
