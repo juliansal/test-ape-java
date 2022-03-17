@@ -1,14 +1,11 @@
-package io.happykraken.testcasemanager.testcase;
+package io.happykraken.testcasemanager.tcase;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class TestCase {
+public class TCase {
 
     @Id
     @GeneratedValue(
@@ -28,7 +25,7 @@ public class TestCase {
             initialValue = 10000,
             allocationSize = 1
     )
-    private String caseNumber;
+    private Long caseNumber;
     private String title;
     private String description;
     private String authorEmail;
