@@ -1,7 +1,6 @@
-package io.happykraken.testcasemanager.testcase;
+package io.happykraken.testcasemanager.tcase;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,27 +9,33 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
-public class TestCaseService {
-    private final TestCaseRepository testCaseRepository;
+public class TCaseService {
+    private final TCaseRepository tCaseRepository;
 
-    public List<TestCase> findTestCases() {
-        return testCaseRepository
+    public List<TCase> findTestCases() {
+
+        return tCaseRepository
                 .findAll()
                 .stream()
                 .limit(1000)
                 .collect(Collectors.toList());
     }
 
-    public List<TestCase> findTestCases(String title, String authorEmail, String createdAt, String status) {
-        return testCaseRepository
+    public List<TCase> findTestCases(String title, String authorEmail, String createdAt, String status) {
+        return tCaseRepository
                 .findAllByParams(title, authorEmail, createdAt, status)
                 .stream()
                 .limit(1000)
                 .collect(Collectors.toList());
     }
 
-    public Optional<TestCase> findTestCaseById(String caseNumber) {
-        return testCaseRepository
+    public Optional<TCase> findTestCaseById(Long caseNumber) {
+        return tCaseRepository
                 .findById(caseNumber);
+    }
+
+    public void createTestCase(TCase testcase) {
+        tCaseRepository
+                .save(testcase);
     }
 }
