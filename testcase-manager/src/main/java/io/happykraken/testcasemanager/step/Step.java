@@ -24,7 +24,7 @@ public class Step {
             allocationSize = 1
     )
     private Long stepId;
-    private Long testcaseId;
+    private Long testCaseNumber;
     private Integer stepOrder;
     private String action;
     private String expectedResult;

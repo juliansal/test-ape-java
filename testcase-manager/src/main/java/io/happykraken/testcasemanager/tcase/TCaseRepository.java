@@ -15,13 +15,17 @@ public interface TCaseRepository extends JpaRepository<TCase, Long> {
     @Query(value = "SELECT * FROM tcase " +
             "WHERE title LIKE %:title% " +
             "AND author_email LIKE %:authorEmail% " +
-            "AND created_at LIKE %:createdAt% " +
             "AND status LIKE %:status%",
             nativeQuery = true
     )
     List<TCase> findAllByParams(@Param("title") String title,
                                 @Param("authorEmail") String authorEmail,
-                                @Param("createdAt") String createdAt,
-                                @Param("status") String status);
+                                @Param("status") Status status);
+
+    @Query(value = "SELECT * FROM tcase " +
+            "WHERE status = :status",
+            nativeQuery = true
+    )
+    List<TCase> findAllByStatus(@Param("status") String status);
 }
 
