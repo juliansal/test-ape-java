@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
@@ -26,11 +29,15 @@ public class TCase {
             allocationSize = 1
     )
     private Long caseNumber;
+    @NotBlank
+    @Column(nullable = false)
     private String title;
     private String description;
     private String authorEmail;
     private String preConditions;
     private LocalDateTime createdAt;
-    private String status;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
 }
