@@ -1,17 +1,22 @@
 package io.happykraken.testcasemanager.bugreport;
 
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 @Builder
 @ToString
-@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@IdClass(BugId.class)
 public class Bug {
 
     @Id
@@ -25,10 +30,26 @@ public class Bug {
     )
     private Long id;
     private Long stepId;
+    @Id
     private Long testcaseId;
     private String authorEmail; // the email address
     private String description;
     private String expectedOutcome;
     private LocalDateTime createdAt;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private BugStatus bugStatus;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Bug bug = (Bug) o;
+        return id != null && Objects.equals(id, bug.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

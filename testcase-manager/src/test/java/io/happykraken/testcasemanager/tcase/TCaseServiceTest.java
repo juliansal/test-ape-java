@@ -4,10 +4,11 @@ import io.happykraken.testcasemanager.utils.TestCaseValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -27,9 +28,6 @@ class TCaseServiceTest {
 
     @Mock
     private TestCaseValidator testCaseValidator;
-
-    @Captor
-    private ArgumentCaptor<TCase> tCaseArgumentCaptor;
 
     private TCaseService underTest;
 
