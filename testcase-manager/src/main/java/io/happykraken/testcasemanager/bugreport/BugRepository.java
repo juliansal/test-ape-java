@@ -12,17 +12,17 @@ public interface BugRepository extends JpaRepository<Bug, BugId> {
 
     // TODO: find by status, title
     @Query(value = "SELECT * FROM bug " +
-            "WHERE bug_status = :bugStatus",
+            "WHERE bug_status = :status",
             nativeQuery = true
     )
-    List<Bug> findAllByStatus(@Param("status") BugStatus bugStatus);
+    List<Bug> findAllByStatus(@Param("status") BugStatus status);
 
     @Query(value = "SELECT * FROM bug " +
-            "WHERE description LIKE %description% " +
-            "AND bug_status = :bugStatus",
+            "WHERE description LIKE %:description% " +
+            "AND bug_status = :status",
             nativeQuery = true
     )
     List<Bug> findAllByDescription(@Param("description") String description,
-                                    @Param("status") BugStatus bugStatus);
+                                    @Param("status") BugStatus status);
 
 }

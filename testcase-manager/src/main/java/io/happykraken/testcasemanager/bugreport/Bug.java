@@ -14,7 +14,6 @@ import java.util.Objects;
 @Builder
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @IdClass(BugId.class)
 public class Bug {

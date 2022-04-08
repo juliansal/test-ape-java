@@ -10,7 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BugId implements Serializable {
-    private Long bugNumber;
-    private Long testCaseNumber;
+    private Long id;
+    private Long testcaseId;
 
 }
