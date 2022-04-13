@@ -10,19 +10,11 @@ import java.util.List;
 @Repository
 public interface BugRepository extends JpaRepository<Bug, BugId> {
 
-    // TODO: find by status, title
     @Query(value = "SELECT * FROM bug " +
-            "WHERE bug_status = :status",
+            "WHERE bug_status LIKE %:status% " +
+            "AND description LIKE %:description%",
             nativeQuery = true
     )
-    List<Bug> findAllByStatus(@Param("status") BugStatus status);
-
-    @Query(value = "SELECT * FROM bug " +
-            "WHERE description LIKE %:description% " +
-            "AND bug_status = :status",
-            nativeQuery = true
-    )
-    List<Bug> findAllByDescription(@Param("description") String description,
-                                    @Param("status") BugStatus status);
-
+    List<Bug> findAllBy(@Param("description") String description,
+                        @Param("status") BugStatus status);
 }

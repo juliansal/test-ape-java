@@ -14,6 +14,24 @@ import java.util.stream.Collectors;
 @Service
 public class BugReportService {
     private BugRepository bugRepository;
+    private static final List<BugStatus> BUG_STATUSES = List.of(BugStatus.ACTIVE, BugStatus.CANCELLED, BugStatus.RESOLVED);
+
+    private BugStatus getValidBugStatus(String status) {
+        BugStatus validStatus;
+
+        try {
+            if (status.isEmpty() || BUG_STATUSES.contains(BugStatus.valueOf(status))) {
+                validStatus = BugStatus.valueOf(status);
+            } else {
+                validStatus = BugStatus.ACTIVE;
+            }
+        } catch (IllegalArgumentException e) {
+            log.info("Status provided was not accepted. Changing to ACTIVE");
+            validStatus = BugStatus.ACTIVE;
+        }
+
+        return validStatus;
+    }
 
     public List<Bug> findAllBugs() {
         return bugRepository
@@ -21,29 +39,27 @@ public class BugReportService {
                 .stream()
                 .limit(1000)
                 .collect(Collectors.toList());
-
     }
 
-    public List<Bug> findBugsByStatus(BugStatus status) {
+    public List<Bug> findBugsByParams(String description, String status) {
+        BugStatus validBugStatus = getValidBugStatus(status);
+
         return bugRepository
-                .findAllByStatus(status)
+                .findAllBy(description, validBugStatus)
                 .stream()
                 .limit(1000)
                 .collect(Collectors.toList());
     }
 
-    public List<Bug> findBugsByDescription(String description, BugStatus status) {
-        return bugRepository
-                .findAllByDescription(description, status);
-    }
+    public Optional<Bug> findBugById(Long bugNumber, Long testCaseNumber) {
+        BugId bugId = new BugId(bugNumber, testCaseNumber);
 
-    public Optional<Bug> findBugById(BugId bugId) {
         return bugRepository
                 .findById(bugId);
     }
 
     public Optional<Bug> createBugReport(Bug bug) {
-
+        // TODO: add validation for Bug description
         LocalDateTime timestamp = LocalDateTime.now();
         bug.setCreatedAt(timestamp);
 
@@ -54,8 +70,9 @@ public class BugReportService {
         return Optional.of(bugCreated);
     }
 
-    public Optional<Bug> updateBugReport(Bug bugReport, BugId bugId) {
+    public Optional<Bug> updateBugReport(Bug bugReport) {
         final Bug[] bugUpdated = { bugReport };
+        BugId bugId = new BugId(bugReport.getId(), bugReport.getTestcaseId());
 
         bugRepository
                 .findById(bugId)
@@ -72,7 +89,9 @@ public class BugReportService {
         return Optional.of(bugUpdated[0]);
     }
 
-    public void deleteBugReport(BugId bugId) {
+    public void deleteBugReport(Bug bugReport) {
+        BugId bugId = new BugId(bugReport.getId(), bugReport.getTestcaseId());
+
         bugRepository
                 .findById(bugId)
                 .ifPresentOrElse(bug -> {
@@ -81,5 +100,4 @@ public class BugReportService {
                     throw new IllegalStateException("This test case does not exist");
                 });
     }
-
 }
