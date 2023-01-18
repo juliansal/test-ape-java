@@ -1,5 +1,6 @@
 package io.testcasemanager.author;
 
+import io.testcasemanager.utils.TestCaseValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 @Service
 public class AuthorService {
 	private AuthorRepository authorRepository;
+	private final TestCaseValidator testCaseValidator;
 
 	public List<Author> findAllAuthors() {
 		return authorRepository
@@ -22,15 +24,22 @@ public class AuthorService {
 				.collect(Collectors.toList());
 	}
 
-	public Optional<Author> createAuthor(Author author) {
-		Optional<Author> findAuthor = authorRepository.findById(author.getId());
-		if (findAuthor.isPresent()) {
-			log.info("This author already exists");
-			return findAuthor;
+	public String createAuthor(Author author) {
+		if (!testCaseValidator.test(author.getEmailAddress())) {
+			throw new IllegalStateException("The email address was empty");
 		}
 
-		UUID savedID = authorRepository.save(author).getId();
+		Optional<Author> findAuthor = authorRepository.findByEmailAddress(author.getEmailAddress());
 
-		return authorRepository.findById(savedID);
+		if (findAuthor.isPresent()) {
+			log.info("This author already exists");
+			return findAuthor.get().getEmailAddress();
+		}
+
+		author.setId(UUID.randomUUID());
+
+		return authorRepository
+				.save(author)
+				.getEmailAddress();
 	}
 }

@@ -18,7 +18,7 @@ public class TCaseController {
 
     @GetMapping
     public List<TCase> getActiveTestCases() {
-        log.info("Retrieve all active test cases");
+        log.info("Retrieve active test cases");
         return tCaseService
                 .findAllTestCasesByStatus(Status.ACTIVE);
     }
