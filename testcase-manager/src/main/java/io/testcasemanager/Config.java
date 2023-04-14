@@ -1,5 +1,6 @@
 package io.testcasemanager;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.testcasemanager.author.Author;
 import io.testcasemanager.author.AuthorService;
 import io.testcasemanager.bugreport.Bug;
@@ -13,6 +14,8 @@ import io.testcasemanager.tcase.TCaseService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class Config {
@@ -153,5 +156,14 @@ public class Config {
 			stepService.createStep(step2, Long.valueOf("10001"));
 			stepService.createStep(step3, Long.valueOf("10002"));
 		};
+	}
+
+	@Bean
+	RestTemplate restTemplate() {
+		RestTemplate restTemplate = new RestTemplate();
+		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+		converter.setObjectMapper(new ObjectMapper());
+		restTemplate.getMessageConverters().add(converter);
+		return restTemplate;
 	}
 }
