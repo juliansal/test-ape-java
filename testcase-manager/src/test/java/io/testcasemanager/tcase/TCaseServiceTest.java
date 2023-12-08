@@ -2,10 +2,12 @@ package io.testcasemanager.tcase;
 
 import io.testcasemanager.utils.TestCaseValidator;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
@@ -92,7 +94,7 @@ class TCaseServiceTest {
                 .title("Find this test case")
                 .status(Status.ACTIVE)
                 .build();
-        given(caseRepository.findAllByParams(eq("Find this test case"), any(), any(Status.class)))
+        given(caseRepository.findAllByParams(eq("Find this test case"), anyString(), any(Status.class)))
                 .willReturn(List.of(tCase1));
         // When
         List<TCase> results = underTest
@@ -219,7 +221,7 @@ class TCaseServiceTest {
         // Then
         then(caseRepository)
                 .should(never())
-                .save(any());
+                .save(tCase);
     }
 }
 

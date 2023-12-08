@@ -48,6 +48,7 @@ public class StepService {
     public Optional<Step> editStep(Step step, Long caseNumber) {
         boolean hasTestCase = tCaseRepository.findById(caseNumber).isPresent();
         if (!hasTestCase) { throw new IllegalStateException("This test case does not exist"); }
+        log.debug(step.toString());
 
         stepRepository
                 .findById(step.getStepId())

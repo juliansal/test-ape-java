@@ -1,8 +1,12 @@
 package io.testcasemanager.bugreport;
 
+import io.testcasemanager.tcase.TCaseService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
@@ -20,8 +24,8 @@ class BugRepositoryTest {
 	@Autowired
 	private BugRepository underTest;
 
-	@BeforeEach
-	void setUp() {
+	@AfterEach
+	void tearDown() {
 		underTest.deleteAll();
 	}
 

@@ -1,5 +1,7 @@
 package io.testcasemanager.bugreport;
 
+import io.testcasemanager.step.Step;
+import io.testcasemanager.step.StepRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -48,6 +50,15 @@ public class BugReportService {
                 .findAllBy(description, validBugStatus)
                 .stream()
                 .limit(1000)
+                .collect(Collectors.toList());
+    }
+
+    public List<Bug> findBugsByTestcase(Long testCaseNumber) {
+
+        return bugRepository
+                .findAllByTestcaseId(testCaseNumber)
+                .stream()
+                .filter(bug -> bug.getBugStatus().equals(BugStatus.ACTIVE))
                 .collect(Collectors.toList());
     }
 
