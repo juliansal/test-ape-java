@@ -11,6 +11,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("api/v1/bug-reports")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class BugReportController {
     private BugReportService bugReportService;
 
@@ -30,6 +31,14 @@ public class BugReportController {
 
         return bugReportService
                 .findBugsByParams(description, status);
+    }
+
+    @GetMapping("testcase")
+    @ResponseBody
+    public List<Bug> getBugReportsByTestcase(@RequestParam(name = "testcase") String testcase) {
+        log.info("Getting bug reports {}", testcase);
+
+        return bugReportService.findBugsByTestcase(Long.valueOf(testcase));
     }
 
     @GetMapping("bug")

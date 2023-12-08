@@ -17,4 +17,7 @@ public interface BugRepository extends JpaRepository<Bug, BugId> {
     )
     List<Bug> findAllBy(@Param("description") String description,
                         @Param("status") BugStatus status);
+
+
+    List<Bug> findAllByTestcaseId(@Param("testcaseId") Long testcaseId);
 }

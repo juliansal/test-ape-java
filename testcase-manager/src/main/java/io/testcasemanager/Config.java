@@ -145,7 +145,7 @@ public class Config {
 
 			Step step3 = Step
 					.builder()
-					.stepOrder(2)
+					.stepOrder(0)
 					.testCaseNumber(Long.valueOf("10002"))
 					.action("Perform first action on this testcase")
 					.expectedResult("Expect first result")
